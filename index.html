@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Electron Demo</title>
+  </head>
+  <body>
+    <h1>Electron Demo</h1>
+    <!-- All of the Node.js APIs are available in this renderer process. -->
+    <h2>We are using:</h2>
+    <ul>
+      <li>Node.js <script>document.write(process.versions.node)</script></li>
+      <li>Chromium <script>document.write(process.versions.chrome)</script></li>
+      <li>Electron <script>document.write(process.versions.electron)</script></li>
+      <li>Sysstem Arch <script>document.write(process.arch)</script></li>
+      <li>Processor Indentifier <script>document.write(process.env.PROCESSOR_IDENTIFIER)</script></li>
+      <li>Printer: <script>document.write(process.env.PRINTER)</script></li>
+    </ul>
+    <script>
+      // You can also require other files to run in this process
+      require('./renderer.js')
+    </script>
+  </body>
+</html>
