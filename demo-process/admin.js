@@ -7,6 +7,7 @@ const url = require('url')
 
 const newWindowBtn = document.getElementById('newWindowBtn');
 
+const ul = document.querySelector('ul');
 newWindowBtn.addEventListener('click', (event) => {
 
   let winNote = new BrowserWindow({
@@ -34,14 +35,26 @@ const errorShown = (event, arg) => {
   const pTag = document.getElementById('errorShown');
   pTag.textContent = arg;
 }
+
 ipcRenderer.on('opend-error-dialog', errorShown);
 
-let winNote = new BrowserWindow({
-  width: 600,
-  height: 400
+ipcRenderer.on('note:add', function(e, item){
+  const li = document.createElement('li');
+  const itemText = document.createTextNode(item);
+  li.appendChild(itemText);
+  ul.appendChild(li);
 });
-winNote.loadURL(url.format({
-  pathname: path.join(__dirname, 'note.html'),
-  protocol: 'file:',
-  slashes: true
-}));
+
+ipcRenderer.on('note:clear', function() {
+  ul.className = '';
+  ul.innerHTML = '';
+});
+
+ul.addEventListener('dblclick', removeItem);
+
+function removeItem(e){
+  event.target.remove();
+  if(ul.children.length == 0){
+    ul.className = '';
+  }
+}

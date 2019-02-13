@@ -1,4 +1,4 @@
-const { app, BrowserWindow, dialog, ipcMain } = require("electron");
+const { app, BrowserWindow, dialog, ipcMain, Menu } = require("electron");
 const path = require('path')
 const url = require('url')
 
@@ -27,15 +27,15 @@ function createWindow() {
     slashes: true
   }));
 
-  winAdmin.webContents.openDevTools();
-  winClient.webContents.openDevTools();
+  // winAdmin.webContents.openDevTools();
+  // winClient.webContents.openDevTools();
 
 
   winAdmin.on('closed', () => {
     winAdmin = null
   });
   winClient.on('closed', () => {
-    winAdmin = null
+    winClient = null
   });
 }
 
@@ -54,9 +54,15 @@ app.on('activate', () => {
   }
 });
 
+//  IPC demo
 showErrorMess = (event) => {
   dialog.showErrorBox('An Error Message', 'Demo');
   event.sender.send('opend-error-dialog', 'The error dialog is opend')
 };
 
 ipcMain.on('open-error-dialog', showErrorMess);
+
+// Catch note:add
+ipcMain.on('note:add', function(e, item){
+  winAdmin.webContents.send('note:add', item);
+});
