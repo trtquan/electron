@@ -21,11 +21,11 @@ function createWindow() {
     protocol: 'file:',
     slashes: true
   }));
-  winClient.loadURL(url.format({
-    pathname: path.join(__dirname, 'client.html'),
-    protocol: 'file:',
-    slashes: true
-  }));
+  // winClient.loadURL(url.format({
+  //   pathname: path.join(__dirname, 'client.html'),
+  //   protocol: 'file:',
+  //   slashes: true
+  // }));
 
   // winAdmin.webContents.openDevTools();
   // winClient.webContents.openDevTools();
