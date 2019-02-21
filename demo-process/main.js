@@ -11,31 +11,15 @@ function createWindow() {
     width: 800,
     height: 600,
   })
-  winClient = new BrowserWindow({
-    width: 800,
-    height: 600,
-  })
 
   winAdmin.loadURL(url.format({
     pathname: path.join(__dirname, 'admin.html'),
     protocol: 'file:',
     slashes: true
   }));
-  // winClient.loadURL(url.format({
-  //   pathname: path.join(__dirname, 'client.html'),
-  //   protocol: 'file:',
-  //   slashes: true
-  // }));
-
-  // winAdmin.webContents.openDevTools();
-  // winClient.webContents.openDevTools();
-
 
   winAdmin.on('closed', () => {
     winAdmin = null
-  });
-  winClient.on('closed', () => {
-    winClient = null
   });
 }
 
@@ -63,6 +47,14 @@ showErrorMess = (event) => {
 ipcMain.on('open-error-dialog', showErrorMess);
 
 // Catch note:add
-ipcMain.on('note:add', function(e, item){
+ipcMain.on('note:add', (e, item) => {
   winAdmin.webContents.send('note:add', item);
+});
+
+ipcMain.on('async-message', (event, arg) => {
+  event.sender.send('async-message-reply', 'Main process async reply.');
+});
+
+ipcMain.on('sync-message', (event, arg) => {
+  event.returnValue = 'sync-reply';
 });
